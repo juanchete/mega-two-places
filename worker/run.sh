@@ -27,7 +27,8 @@ claude -p "$PROMPT" \
   --allowedTools "mcp__job" "Skill" "ListMcpResourcesTool" "ReadMcpResourceTool" \
   --disallowedTools "Bash" "Write" "Edit" "NotebookEdit" "WebFetch" "WebSearch" "Agent" \
   --output-format stream-json --verbose \
-  > "$OUT/$JOB.jsonl"
+  > "$OUT/$JOB.jsonl" 2> "$OUT/$JOB.stderr.log"
 
+# Print counts only: on a public run log, the record and the receipt must not show.
 node "$ROOT/worker/extract.mjs" "$OUT/$JOB.jsonl" > "$OUT/$JOB.result.json"
-node -e 'const r = require(process.argv[1]); console.log(`${r.job ?? ""} submit calls: ${r.submitCalls}, last reply is error: ${r.lastSubmit?.isError ?? "n/a"}, final line: ${r.finalLine}`)' "$OUT/$JOB.result.json"
+node -e 'const r = require(process.argv[1]); console.log(`${r.job ?? ""} submit calls: ${r.submitCalls}, last reply is error: ${r.lastSubmit?.isError ?? "n/a"}, ends with SUBMITTED: ${r.finalLine === "SUBMITTED"}`)' "$OUT/$JOB.result.json"

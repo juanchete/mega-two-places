@@ -33,11 +33,16 @@ jobs:
           JOB_URL: ${{ secrets.JOB1_URL }}
         run: bash worker/run.sh job-1 incident-lookup
 
-      - name: Keep the transcript and the submit reply
+      # The repo is public: never upload out/ as it is. Seal it first.
+      - name: Seal the output
+        if: always()
+        run: bash worker/seal.sh sealed
+
+      - name: Keep the sealed output
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ inputs.job }}-result
-          path: out/
+          name: ${{ inputs.job }}-sealed
+          path: sealed/
           retention-days: 3
           if-no-files-found: error
