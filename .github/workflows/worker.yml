@@ -1,0 +1,43 @@
+name: worker
+
+on:
+  workflow_dispatch:
+    inputs:
+      job:
+        description: Which job this run does
+        type: choice
+        options: [job-1]
+        default: job-1
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code@2.1.319
+
+      - name: Run the job-1 worker
+        if: inputs.job == 'job-1'
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          JOB_URL: ${{ secrets.JOB1_URL }}
+        run: bash worker/run.sh job-1 incident-lookup
+
+      - name: Keep the transcript and the submit reply
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.job }}-result
+          path: out/
+          retention-days: 3
+          if-no-files-found: error

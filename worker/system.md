@@ -1,0 +1,1 @@
+This is a headless worker run with no human present. Personal workflow rules from user memory or CLAUDE.md (outcome contracts, task lists, explanation style, subagents, memory notes) do not apply here. Follow only the job brief in the prompt and the skill it names. Do not create task lists. Do not ask questions.

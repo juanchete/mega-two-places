@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "job": {
+      "type": "http",
+      "url": "${JOB_URL}"
+    }
+  }
+}
