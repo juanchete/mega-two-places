@@ -8,5 +8,5 @@ Workers for MEGA S02E04 "two places". Each job runs in its own headless Claude C
 
 | Job | Skill | Where |
 |---|---|---|
-| job-1 | incident-lookup | GitHub Actions (`worker.yml`, secrets `JOB1_URL`, `CLAUDE_CODE_OAUTH_TOKEN`) |
+| job-1 | incident-lookup | Claude Code cloud task (`worker/cloud-prompt.md`, `.mcp.json` reads `JOB1_URL` from the cloud environment; sealed result on branch `claude/job-1-result`). `worker.yml` is the GitHub Actions route, blocked while the account has a billing lock. |
 | job-2 | voice-to-memo | Local machine |

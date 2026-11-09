@@ -1,0 +1,6 @@
+{
+  "enabledMcpjsonServers": ["job"],
+  "permissions": {
+    "allow": ["mcp__job", "Skill", "Bash(bash worker/cloud-check.sh)", "Bash(bash worker/cloud-finish.sh job-1)"]
+  }
+}
